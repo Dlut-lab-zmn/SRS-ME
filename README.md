@@ -4,10 +4,22 @@
 <img src = 'images/fig1_m.pdf'>
 </div>
 
-To tackle issues of significantly affecting the overall model performance and overlooking the practical challenges associated with iterative concept erasure and subsequent restoration, we propose Concept-irrelevant Erasure (CiE) and Separable Concept Erasure (SepCE). 
+Issues: 
+* affect the overall model performance when erasing concepts;
+* overlook the challenges associated with iterative concept erasure and subsequent restoration.
+
+We propose 
+* Concept-irrelevant Erasure (CiE);
+* Separable Concept Erasure (SepCE).
+
 CiE can preserve overall model performance and effectively eliminate concepts, which includes a direction term and momentum statistics to guide the generation of concept-irrelevant representations.
 Building upon CiE, SepCE separates optimizable model weights, with each weight term corresponding to a specific concept erasure without affecting generative performance on other concepts. 
-To this end, distinct basic solution sets are constructed for different concepts, and each weight is reconstructed as a linear combination of its corresponding set. Experiments demonstrate the efficacy of our approaches in eliminating concepts, preserving model performance, and offering flexibility in the erasure or recovery of various concepts.
+To this end, distinct basic solution sets are constructed for different concepts, and each weight is reconstructed as a linear combination of its corresponding set.
+
+Efficacy of our approaches in 
+* eliminating concepts;
+* preserving model performance;
+* offering flexibility in the erasure or recovery of various concepts.
 
 ## Fine-tuned Weights
 
