@@ -34,12 +34,10 @@ We do not offer the fine-tuned weights for download, as the training process is 
 
 ## Training Guide
 
-After installation, follow these instructions to train a custom ESD model:
+After installation, follow these instructions to train a machine unlearning model:
 
-* `cd stable-diffusion` to the main repository of stable-diffusion
-* [IMPORTANT] Edit `train-script/train-esd.py` and change the default argparser values according to your convenience (especially the config paths)
-* To choose train_method, pick from following `'xattn'`,`'noxattn'`, `'selfattn'`, `'full'` 
-* `python train-scripts/train-esd.py --prompt 'your prompt' --train_method 'your choice of training' --devices '0,1'`
+Generate data and then put these samples to ./data/train/{0,1,2,3,4,5,6,7,8,9} or ./data/eval/{0,1,2,3,4,5,6,7,8,9}
+* python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
 
 Note that the default argparser values must be changed!
 
