@@ -1,0 +1,4 @@
+stable-diffusion/ldm/modules/diffusionmodules/openaimodel.py
+stable-diffusion/ldm/models/diffusion/ddim.py
+stable-diffusion/ldm/models/diffusion/ddpm.py
+stable-diffusion/ldm/modules/attention.py
