@@ -37,7 +37,9 @@ We do not offer the fine-tuned weights for download, as the training process is 
 After installation, follow these instructions to train a machine unlearning model:
 
 Generate data and then put these samples to ./data/train/{0,1,2,3,4,5,6,7,8,9} or ./data/eval/{0,1,2,3,4,5,6,7,8,9}
+
 * python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
+
 model_name can be `Van Gogh', `Picasso', `Cezanne', `Jackson Pollock', `Caravaggio', `Keith Haring', `Kelly McKernan', `Tyler Edlin', and `Kilian Eng'.
 
 
