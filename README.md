@@ -49,22 +49,13 @@ file_name: eval
 python eval-scripts/lpips_eval.py --original_path './evaluation_folder-diff/default' --edited_path './evaluation_folder-diff/train-joint-threshold0' --prompts_path './data/evaluate_classify.csv'
 
 
-0.909     0.955      0.955           0.909     0.909     0.955   0.909
-0.545     0.864      0.864           0.227     0.227     0.318   0.137
-1.000     0.350      0.950           0.900     0.150     0.150   0.150
-0.893     0.857      0.430           0.250     0.429     0.143   0.070
-1.000     0.821      0.893           0.857     0.857     0.536   0.429
-1.000     1.000      0.967           0.933     0.833     0.667   0.333
-0.967     0.967      0.967           1.000     0.933     0.833   0.567
-0.967     0.933      0.967           0.933     0.833     0.867   0.733
-1.000     0.967      1.000           0.933     0.900     0.667   0.400
-1.000     1.000      1.000           1.000     1.000     0.933   0.933
 
 
 
-
-
-
+ldm/models/diffusion/ddpm.py
+ldm/models/diffusion/ddim.py
+ldm/modules/attention.py
+ldm/modules/diffusionmodules/openaimodel.py
 
 
 
