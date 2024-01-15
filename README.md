@@ -1,7 +1,7 @@
 # Separable Diffusion Model Unlearning
 
 Train:
-![txt2img-stable2](images/stable-samples/txt2img/merged-0006.png)
+![txt2img-stable2](images/fig1_n.pdf)
 python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
 
 python train-scripts/artist-cls-train-pre.py --device 'cuda:4'
