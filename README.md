@@ -23,7 +23,7 @@ Efficacy of our approaches in
 
 ## Fine-tuned Weights
 
-The finetuned weights for both NSFW and art style erasures are available on our [project page](https://erasing.baulab.info).
+We do not offer the fine-tuned weights for download, as the training process is faster.
 
 ## Running Gradio Demo Locally
 
