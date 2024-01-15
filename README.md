@@ -52,13 +52,6 @@ prompt can be `Van Gogh`, `Picasso`, `Cezanne`, `Jackson Pollock`, `Caravaggio`,
 * `python train-scripts/CiE.py --threshold 0 --lr 1e-6 --reg_beta 3e-5 --prompt 'Van Gogh' --devices '0,1'`
 * `python train-scripts/SepCE.py --lr 1e-2 --scale_factor 1e-4 --reg_beta 3e-5 --devices '0,1'`
 
-
-
-The optimization process for erasing undesired visual concepts from pre-trained diffusion model weights involves using a short text description of the concept as guidance. The ESD model is fine-tuned with the conditioned and unconditioned scores obtained from frozen SD model to guide the output away from the concept being erased. The model learns from it's own knowledge to steer the diffusion process away from the undesired concept.
-<div align='center'>
-<img src = 'images/ESD.png'>
-</div>
-
 ## Generating Images
 
 To generate images from one of the custom models use the following instructions:
