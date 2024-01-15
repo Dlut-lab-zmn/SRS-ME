@@ -40,7 +40,30 @@ After installation, follow these instructions to train a machine unlearning mode
 
 * python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
 
-model_name can be `Van Gogh`, `Picasso`, `Cezanne`, `Jackson Pollock`, `Caravaggio`, `Keith Haring`, `Kelly McKernan`, `Tyler Edlin`, and `Kilian Eng`.
+model_name can be prompts `Van Gogh`, `Picasso`, `Cezanne`, `Jackson Pollock`, `Caravaggio`, `Keith Haring`, `Kelly McKernan`, `Tyler Edlin`, and `Kilian Eng`.
+
+2. Train classification model 
+* python train-scripts/artist-cls-train.py --device 'cuda:0'
+
+3. Train FMN
+* python train-scripts/FMN.py --lr 1e-5 --iter_break 10 --prompt 'Van Gogh' --devices '5,7'
+
+FMN
+python train-scripts/FMN.py --lr 1e-5 --iter_break 10 --prompt 'Picasso' --devices '5,7'
+python train-scripts/FMN-mul.py --lr 1e-5 --iter_break 10 --devices '5,7'
+Abconcept
+python train-scripts/Abconcept.py --lr 1e-5 --iter_break 50 --prompt 'Picasso' --devices '4,5'
+python train-scripts/Abconcept.py --lr 1e-5 --iter_break 50 --devices '6,7'
+CiE
+python train-scripts/CiE.py --threshold 0 --lr 1e-6 --reg_beta 3e-5 --prompt 'VanGogh' --devices '5,7'
+python train-scripts/CiE.py --threshold 5e-5 --lr 1e-6 --reg_beta 3e-5 --prompt 'Picasso' --devices '5,7'
+python train-scripts/CiE-mul.py --threshold 0 --lr 1e-6 --reg_beta 3e-5 --devices '5,7'
+SepCE
+python train-scripts/SepCE.py --lr 1e-1 --scale_factor 1e-4 --reg_beta 3e-5 --devices '5,6'
+python train-scripts/statistic_weight.py --lr 1e-1 --scale_factor 1e-4 --devices '6,7'
+ESD
+python train-scripts/Esd.py --prompt 'Picasso' --train_method 'xattn' --iterations 1000 --devices '5,6'
+python train-scripts/Esd-mul.py --iterations 1000 --devices '5,6'
 
 
 The optimization process for erasing undesired visual concepts from pre-trained diffusion model weights involves using a short text description of the concept as guidance. The ESD model is fine-tuned with the conditioned and unconditioned scores obtained from frozen SD model to guide the output away from the concept being erased. The model learns from it's own knowledge to steer the diffusion process away from the undesired concept.
