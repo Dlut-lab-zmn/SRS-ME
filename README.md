@@ -4,11 +4,10 @@
 <img src = 'images/fig1_m.pdf'>
 </div>
 
-Motivated by recent advancements in text-to-image diffusion, we study erasure of specific concepts from the model's weights. While Stable Diffusion has shown promise in producing explicit or realistic artwork, it has raised concerns regarding its potential for misuse. We propose a fine-tuning method that can erase a visual concept from a pre-trained diffusion model, given only the name of the style and using negative guidance as a teacher. We benchmark our method against previous approaches that remove sexually explicit content and demonstrate its effectiveness, performing on par with Safe Latent Diffusion and censored training.
-
-To evaluate artistic style removal, we conduct experiments erasing five modern artists from the network and conduct a user study to assess the human perception of the removed styles. Unlike previous methods, our approach can remove concepts from a diffusion model permanently rather than modifying the output at the inference time, so it cannot be circumvented even if a user has access to model weights
-
-Given only a short text description of an undesired visual concept and no additional data, our method fine-tunes model weights to erase the targeted concept. Our method can avoid NSFW content, stop imitation of a specific artist's style, or even erase a whole object class from model output, while preserving the model's behavior and capabilities on other topics.
+To tackle issues of significantly affecting the overall model performance and overlooking the practical challenges associated with iterative concept erasure and subsequent restoration, we propose Concept-irrelevant Erasure (CiE) and Separable Concept Erasure (SepCE). 
+CiE can preserve overall model performance and effectively eliminate concepts, which includes a direction term and momentum statistics to guide the generation of concept-irrelevant representations.
+Building upon CiE, SepCE separates optimizable model weights, with each weight term corresponding to a specific concept erasure without affecting generative performance on other concepts. 
+To this end, distinct basic solution sets are constructed for different concepts, and each weight is reconstructed as a linear combination of its corresponding set. Experiments demonstrate the efficacy of our approaches in eliminating concepts, preserving model performance, and offering flexibility in the erasure or recovery of various concepts.
 
 ## Fine-tuned Weights
 
