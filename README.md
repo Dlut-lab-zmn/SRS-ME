@@ -25,19 +25,10 @@ Efficacy of our approaches in
 
 We do not offer the fine-tuned weights for download, as the training process is faster.
 
-## Running Gradio Demo Locally
-
-To run the gradio interactive demo locally, clone the files from [demo repository](https://huggingface.co/spaces/baulab/Erasing-Concepts-In-Diffusion/tree/main) <br>
-
-* Create an environment using the packages included in the requirements.txt file
-* Run `python app.py`
-* Open the application in browser at `http://127.0.0.1:7860/`
-* Train, evaluate, and save models using our method
-
 ## Installation Guide
 
 * To get started clone the following repository of Original Stable Diffusion [Link](https://github.com/CompVis/stable-diffusion)
-* Then download the files from our repository to `stable-diffusion` main directory of stable diffusion. This would replace the `ldm` folder of the original repo with our custom `ldm` directory
+* Then replace the files from our repository to `stable-diffusion` main directory of stable diffusion. 
 * Download the weights from [here](https://huggingface.co/CompVis/stable-diffusion-v-1-4-original/resolve/main/sd-v1-4-full-ema.ckpt) and move them to `stable-diffusion/models/ldm/` (This will be `ckpt_path` variable in `train-scripts/train-esd.py`)
 * [Only for training] To convert your trained models to diffusers download the diffusers Unet config from [here](https://huggingface.co/CompVis/stable-diffusion-v1-4/blob/main/unet/config.json)  (This will be `diffusers_config_path` variable in `train-scripts/train-esd.py`)
 
