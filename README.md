@@ -1,13 +1,7 @@
-# SepCE4MU
-
-# Stable Diffusion
-*Stable Diffusion was made possible thanks to a collaboration with [Stability AI](https://stability.ai/) and [Runway](https://runwayml.com/) a
-
-
-
+# Separable Diffusion Model Unlearning
 
 Train:
-
+![txt2img-stable2](images/stable-samples/txt2img/merged-0006.png)
 python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
 
 python train-scripts/artist-cls-train-pre.py --device 'cuda:4'
@@ -62,13 +56,6 @@ ldm/modules/diffusionmodules/openaimodel.py
 
 
 
-
-
-
-
-[**Separable Diffusion Model Unlearning**]()<br/>
-
-![txt2img-stable2](assets/stable-samples/txt2img/merged-0006.png)
 [Stable Diffusion](#stable-diffusion-v1) is a latent text-to-image diffusion
 model.
 Thanks to a generous compute donation from [Stability AI](https://stability.ai/) and support from [LAION](https://laion.ai/), we were able to train a Latent Diffusion Model on 512x512 images from a subset of the [LAION-5B](https://laion.ai/blog/laion-5b/) database. 
