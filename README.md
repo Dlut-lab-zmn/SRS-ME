@@ -1,7 +1,7 @@
 # Separable Diffusion Model Unlearning
  
 <div align='center'>
-<img src = 'images/fig1_m.pdf'>
+<img src = 'images/1.png'>
 </div>
 
 Issues: 
