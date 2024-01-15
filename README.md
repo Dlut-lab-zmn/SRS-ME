@@ -40,7 +40,7 @@ Generate data and then put these samples to ./data/train/{0,1,2,3,4,5,6,7,8,9} o
 
 * python eval-scripts/generate-data.py --model_name='?' --save_path './data/' --num_samples 1 --device 'cuda:5'
 
-model_name can be `Van Gogh', `Picasso', `Cezanne', `Jackson Pollock', `Caravaggio', `Keith Haring', `Kelly McKernan', `Tyler Edlin', and `Kilian Eng'.
+model_name can be `Van Gogh`, `Picasso`, `Cezanne`, `Jackson Pollock`, `Caravaggio`, `Keith Haring`, `Kelly McKernan`, `Tyler Edlin`, and `Kilian Eng`.
 
 
 The optimization process for erasing undesired visual concepts from pre-trained diffusion model weights involves using a short text description of the concept as guidance. The ESD model is fine-tuned with the conditioned and unconditioned scores obtained from frozen SD model to guide the output away from the concept being erased. The model learns from it's own knowledge to steer the diffusion process away from the undesired concept.
