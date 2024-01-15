@@ -7,7 +7,7 @@ import pandas as pd
 import argparse
 import os
 import random
-def generate_images(model_name, save_path, device='cuda:0', guidance_scale = 7.5, image_size=512, ddim_steps=100, num_samples=10, from_case=0):
+def generate_images(prompt, model_name, save_path, device='cuda:0', guidance_scale = 7.5, image_size=512, ddim_steps=100, num_samples=10, from_case=0):
     '''
     Function to generate images from diffusers code
     
@@ -74,7 +74,7 @@ def generate_images(model_name, save_path, device='cuda:0', guidance_scale = 7.5
     os.makedirs(folder_path, exist_ok=True)
 
     for case_number in range(1000):
-        prompt = [f'{model_name}']*num_samples
+        prompt = [f'{prompt}']*num_samples
         seed = random.randint(0,3000)# row.evaluation_seed
 
         height = image_size                        # default height of Stable Diffusion
@@ -148,6 +148,7 @@ if __name__=='__main__':
                     prog = 'generateImages',
                     description = 'Generate Images using Diffusers Code')
     parser.add_argument('--model_name', help='name of model', type=str, required=True)
+    parser.add_argument('--prompt', help='prompt', type=str, required=True)
     parser.add_argument('--save_path', help='folder where to save images', type=str, required=True)
     parser.add_argument('--device', help='cuda device to run on', type=str, required=False, default='cuda:5')
     parser.add_argument('--guidance_scale', help='guidance to run eval', type=float, required=False, default=7.5)
@@ -160,11 +161,12 @@ if __name__=='__main__':
     model_name = args.model_name
     save_path = args.save_path
     device = args.device
+    prompt = args.prompt
     guidance_scale = args.guidance_scale
     image_size = args.image_size
     ddim_steps = args.ddim_steps
     num_samples= args.num_samples
     from_case = args.from_case
     
-    generate_images(model_name, save_path, device=device,
+    generate_images(prompt, model_name, save_path, device=device,
                     guidance_scale = guidance_scale, image_size=image_size, ddim_steps=ddim_steps, num_samples=num_samples,from_case=from_case)
