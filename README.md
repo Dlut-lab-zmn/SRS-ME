@@ -38,12 +38,12 @@ After installation, follow these instructions to train a machine unlearning mode
 
 1. Generate data and then put these samples to ./data/train/{0,1,2,3,4,5,6,7,8,9} or ./data/eval/{0,1,2,3,4,5,6,7,8,9}
 
-* `python eval-scripts/generate-data.py --prompt 'Van Gogh' --model_name '0' --save_path './data/' --num_samples 1 --device 'cuda:5'`
+* `python eval-scripts/generate-data.py --prompt 'Van Gogh' --model_name '0' --save_path './data/' --num_samples 1 --device 'cuda:0'`
 
 `--prompt` can be `Van Gogh`, `Picasso`, `Cezanne`, `Jackson Pollock`, `Caravaggio`, `Keith Haring`, `Kelly McKernan`, `Tyler Edlin`, and `Kilian Eng`.
 
 2. Train classification model 
-* python train-scripts/artist-cls-train.py --device 'cuda:0'
+* `python train-scripts/artist-cls-train.py --device 'cuda:0'`
 
 3. Train FMN, Abconcept, Esd, CiE, SepCE
 * `python train-scripts/FMN.py --lr 1e-5 --iter_break 10 --prompt 'Van Gogh' --devices '0,1'`
