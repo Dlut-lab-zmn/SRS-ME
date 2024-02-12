@@ -1,4 +1,4 @@
-# [Separable Multi-Concept Erasure from Diffusion Models](https://arxiv.org/abs/2402.05947)
+# [Separable Multi-Concept Erasure from Diffusion Models]
  
 <div align='center'>
 <img src = 'images/1.png'>
@@ -72,12 +72,4 @@ To obtain the quantitative results:
 ## Citing our work
 If you find our work valuable, please consider citing the preprint using the following format:
 ```
-@misc{zhao2024separable,
-      title={Separable Multi-Concept Erasure from Diffusion Models}, 
-      author={Mengnan Zhao and Lihe Zhang and Tianhang Zheng and Yuqiu Kong and Baocai Yin},
-      year={2024},
-      eprint={2402.05947},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
 ```
