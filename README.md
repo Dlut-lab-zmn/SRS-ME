@@ -1,4 +1,4 @@
-# Separable Diffusion Model Unlearning
+# Separable Multi-Concept Erasure from Diffusion Models
  
 <div align='center'>
 <img src = 'images/1.png'>
