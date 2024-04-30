@@ -37,9 +37,8 @@ if __name__=='__main__':
     parser = argparse.ArgumentParser(
                     prog = 'LPIPS',
                     description = 'Takes the path to two images and gives LPIPS')
-    parser.add_argument('--original_path', help='path to original image', type=str, required=True)
-    parser.add_argument('--edited_path', help='path to edited image', type=str, required=True)
-    parser.add_argument('--prompts_path', help='path to csv prompts', type=str, required=True)
+    parser.add_argument('--path1', help='path to original image', type=str, required=True)
+    parser.add_argument('--path2', help='path to edited image', type=str, required=True)
 
 
     loss_fn_alex = lpips.LPIPS(net='alex')
@@ -47,28 +46,20 @@ if __name__=='__main__':
     args = parser.parse_args()
 
 
-    for i in range(10):
-        original_path = os.path.join(args.original_path, str(i))
-        edited_path = os.path.join(args.edited_path, str(i))
+    for i in range(9):
+        original_path = os.path.join(args.path1, str(i))
+        edited_path = os.path.join(args.path2, str(i))
 
         file_names = os.listdir(original_path) # read all the images in the original path
-        file_names = [name for name in file_names if '.png' in name]
-        df_prompts = pd.read_csv(args.prompts_path) # read the prompts csv to get correspoding case_number and prompts
-        df_prompts['lpips_loss'] = df_prompts['case_number'] *0 # initialise lpips column in df
+
         score_sum = 0
         score_ls = 0
-        for index, row in df_prompts.iterrows(): 
-            case_number = row.case_number
-            files = [file for file in file_names if file.startswith(f'{int(case_number)}_')]
-            for file in files:
-                
-                # print(file)
-                score_ls += 1
-                # read both the files (original image to compare with and the edited image)
-                original = image_loader(os.path.join(original_path,file))
-                edited = image_loader(os.path.join(edited_path,file))
-                # calculate lpips
-                l = loss_fn_alex(original, edited)
-                score_sum += l.item()
-                # print(f'LPIPS score: {l.item()}')
-        print(f'{args.prompts_path}-{i}:', score_sum/score_ls)
+        
+        for name in file_names:
+            score_ls += 1
+            original = image_loader(os.path.join(original_path,name))
+            edited = image_loader(os.path.join(edited_path,name))
+            l = loss_fn_alex(original, edited)
+            score_sum += l.item()
+        print(f'{i}:', score_sum/score_ls)
+        
