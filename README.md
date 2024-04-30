@@ -50,11 +50,16 @@ After installation, follow these instructions to train a machine unlearning mode
 2. Train classification model 
 * `python train-scripts/artist-cls-train.py --device 'cuda:0'`
 
-3. Train FMN, Abconcept, Esd, CiE, SRS_ME
-* `python train-scripts/FMN.py --lr 1e-5 --iter_break 10 --prompt 'Van Gogh' --devices '0,1'`
-* `python train-scripts/Abconcept.py --lr 1e-5 --iter_break 50 --prompt 'Van Gogh' --devices '0,1'`
-* `python train-scripts/SRSME-Solution.py --erase_cat 'style' --erased_index 0 --em_indexes '1,2' --scenei 4 --timei 0 --device '0'`
-* `python train-scripts/SRS_ME.py --lr 1e-1 --scale_factor 1e-4 --threshold 1e-4 --reg_beta 1e-6 --erased_index 1 --scenei 1 --timei 0 --max_base 691 --erase_cat 'style' --devices '0,1'`
+3. Train comparative experiments: FMN, Abconcept, Esd
+* `python train-scripts/FMN.py --erase_cat 'style' --erased_index 0 --lr 1e-5 --iter_break 50 --devices '0,1'`
+* `python train-scripts/Abconcept.py --erase_cat 'style' --erased_index 0 --lr 1e-5 --iter_break 75 --devices '0,1'`
+* `python train-scripts/Esd.py --iter_break 1000 --train_method 'xattn' --erase_cat 'style' --erased_index 0 --devices '0,1'`
+
+4. Train our SRS-ME
+Calculate particular solutions:
+* `python train-scripts/SRSME_Solution.py --erase_cat 'style' --erased_index 0 --em_indexes '1,2' --scenei 1 --timei 0 --device '0'`
+SRS-ME optimization:
+* `python train-scripts/SRS_ME.py --lr 1e-1 --scale_factor 1e-4 --threshold 1e-4 --reg_beta 1e-6 --erased_index 0 --scenei 1 --timei 0 --max_base 691 --erase_cat 'style' --devices '0,1'`
 
 ## Generating Images
 
