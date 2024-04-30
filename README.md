@@ -8,18 +8,23 @@ Issues:
 * affect the overall model performance when erasing concepts;
 * overlook the challenges associated with iterative concept erasure and subsequent restoration.
 
+* Concept restoration: The agreement breakdown between concept owners and DM owners may be temporary, and DM owners need to recover these forgotten concepts after regaining their copyrights.
+* Multi-concept erasure: Current erasure procedures are confined to single-concept elimination and pose challenges when extending them to multi-concept erasure. Multi-concept erasure can take two forms: simultaneous erasure of multiple concepts and iterative concept erasure . The former encounters memory overload, while both forms involve interactions between fine-tuned weights for erasing various concepts.
+* Model performance preservation: Prior efforts focus on concept erasure, leading to a considerable performance degradation in the overall generative capability of DMs. Particularly, they may destroy model watermarks, i.e., watermarks triggered by pre-defined prompts for text-guided DMs.
+
+
 We propose 
-* Concept-irrelevant Erasure (CiE);
-* Separable Concept Erasure (SepCE).
+* Weight Decoupling;
+* Concept-irrelevant Unlearning;
+* Optimization Decoulping.
 
-CiE can preserve overall model performance and effectively eliminate concepts, which includes a direction term and momentum statistics to guide the generation of concept-irrelevant representations.
-Building upon CiE, SepCE separates optimizable model weights, with each weight term corresponding to a specific concept erasure without affecting generative performance on other concepts. 
-To this end, distinct basic solution sets are constructed for different concepts, and each weight is reconstructed as a linear combination of its corresponding set.
-
-Efficacy of our approaches in 
-* eliminating concepts;
-* preserving model performance;
-* offering flexibility in the erasure or recovery of various concepts.
+In this project, we propose a novel Separable, Recoverable, and Sustainable Multi-concept Eraser (SRS-ME), enabling diffusion models to forget all concepts that they should forget without necessitating retraining from scratch.
+Specifically, through theoretical analysis, we introduce the paradigm of weight decoupling for constructing separable weight shifts, which can decouple interactions among weight shifts targeting diverse concepts.
+This approach also provides flexibility in both erasing and recovering arbitrary concepts while preserving model watermarks.
+To effectively erase inappropriate concepts and preserve model performance on regular concepts, we design an innovative concept-irrelevant unlearning optimization process.
+By defining concept representations, this process introduces the concept correlation loss and the momentum statistic-based stopping condition.
+Besides, to reduce memory usage, we demonstrate the feasibility of optimization decoupling for separated weight shifts.
+Benchmarked against prior work, extensive experiments demonstrate the flexibility of our SRS-ME in concept manipulation, as well as its efficacy in preserving model performance and reducing memory consumption.
 
 ## Fine-tuned Weights
 
