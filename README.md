@@ -1,7 +1,7 @@
 # [Separable Multi-Concept Erasure from Diffusion Models]
  
 <div align='center'>
-<img src = 'images/SepME.pdf'>
+<img src = 'images/1.jpg'>
 </div>
 
 Issues: 
