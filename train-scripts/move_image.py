@@ -1,16 +1,16 @@
 import shutil
 import os
-save_path = './evaluation_folder/eval'
+save_path = './evaluation_folder-diff/eval'
 files = os.listdir(save_path)
-for i in range(10):
+for i in range(9):
     os.mkdir(f'{save_path}/{i}')
 
-num = 250
+num = 50
 for file in files:
     img_ind = int(file.split('_')[0])
     if img_ind < num and img_ind >= 0:
         shutil.move(os.path.join(save_path, file), save_path + '/0')
-    if img_ind < num*2 and img_ind > num:
+    if img_ind < num*2 and img_ind >= num:
         shutil.move(os.path.join(save_path, file), save_path + '/1')
     if img_ind < num*3 and img_ind >= num*2:
         shutil.move(os.path.join(save_path, file), save_path + '/2')
@@ -26,6 +26,3 @@ for file in files:
         shutil.move(os.path.join(save_path, file), save_path + '/7')
     if img_ind < num*9 and img_ind >= num*8:
         shutil.move(os.path.join(save_path, file), save_path + '/8')
-    if img_ind < num*10 and img_ind >= num*9:
-        shutil.move(os.path.join(save_path, file), save_path + '/9')
-
