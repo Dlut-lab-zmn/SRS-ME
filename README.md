@@ -1,4 +1,4 @@
-# [Separable Multi-Concept Erasure from Diffusion Models]
+# [Forget All That Should Be Forgotten: Separable, Recoverable, and Sustainable Multi-Concept Erasure from Diffusion Models]
  
 <div align='center'>
 <img src = 'images/1.jpg'>
