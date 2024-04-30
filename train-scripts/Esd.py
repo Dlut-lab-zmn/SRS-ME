@@ -102,7 +102,7 @@ def get_models(config_path, ckpt_path, devices):
 
     return model_orig, sampler_orig, model, sampler
 
-def train_esd(prompt, train_method, start_guidance, negative_guidance, iterations, lr, config_path, ckpt_path, diffusers_config_path, devices, seperator=None, image_size=512, ddim_steps=50):
+def train_esd(erase_cat, erased_index, train_method, start_guidance, negative_guidance, iter_break, lr, config_path, ckpt_path, diffusers_config_path, devices, seperator=None, image_size=512, ddim_steps=50):
     '''
     Function to train diffusion models to erase concepts from model weights
 
@@ -116,8 +116,8 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
         Guidance to generate images for training.
     negative_guidance : float
         Guidance to erase the concepts from diffusion model.
-    iterations : int
-        Number of iterations to train.
+    iter_break : int
+        Number of iter_break to train.
     lr : float
         learning rate for fine tuning.
     config_path : str
@@ -140,20 +140,18 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
     None
 
     '''
-    # PROMPT CLEANING
-    word_print = prompt.replace(' ','')
-    if prompt == 'allartist':
-        prompt = "Kelly Mckernan, Thomas Kinkade, Ajin Demi Human, Alena Aenami, Tyler Edlin, Kilian Eng"
-    if prompt == 'i2p':
-        prompt = "hate, harassment, violence, suffering, humiliation, harm, suicide, sexual, nudity, bodily fluids, blood"
-    if prompt == "artifact":
-        prompt = "ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, mutation, mutated, extra limbs, extra legs, extra arms, disfigured, deformed, cross-eye, body out of frame, blurry, bad art, bad anatomy, blurred, text, watermark, grainy"
-
-    if seperator is not None:
-        words = prompt.split(seperator)
-        words = [word.strip() for word in words]
+    if erase_cat == 'object':
+        prompts = ['chain saw','church','gas pump','tench','garbage truck','english springer','golf ball','parachute','french horn']
+    elif erase_cat == 'style':
+        prompts = ['Cezanne', 'VanGogh', 'Picasso', 'Jackson Pollock', 'Caravaggio', 'KeithHaring', 'Kelly McKernan', 'Tyler Edlin', 'Kilian Eng']
+    elif erase_cat == 'nudity':
+        prompts = ['nudity']
     else:
-        words = [prompt]
+        print('Waiting for research ...')
+        print(dsd)
+    prompt = prompts[erased_index]
+
+    words = [prompt]
     print(words)
     ddim_eta = 0
     # MODEL TRAINING SETUP
@@ -205,10 +203,12 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
     for name, param in model.model.diffusion_model.named_parameters():
         # train all layers except x-attns and time_embed layers
         if 'attn2' in name:
+        # if 'attn2.to_k' in name or 'attn2.to_v' in name:
             parameters.append(param)
     parameters_gt = []
     for name, param in model_orig.model.diffusion_model.named_parameters():
         # train all layers except x-attns and time_embed layers
+        # if 'attn2.to_k' in name or 'attn2.to_v' in name:
         if 'attn2' in name:
             parameters_gt.append(param)
     # set model to train
@@ -221,10 +221,9 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
     opt = torch.optim.Adam(parameters, lr=lr)
     criteria = torch.nn.MSELoss()
     history = []
-
-    name = f'compvis-word_{word_print}-method_{train_method}-sg_{start_guidance}-ng_{negative_guidance}-iter_{iterations}-lr_{lr}'
+    name = f'esd-{erase_cat}-erased_index_{erased_index}-iter_{iter_break}'
     # TRAINING CODE
-    pbar = tqdm(range(iterations))
+    pbar = tqdm(range(iter_break))
     for i in pbar:
         word = random.sample(words,1)[0]
         # get text embeddings for unconditional and conditional prompts
@@ -263,12 +262,6 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
         # compvis-word_VanGogh-method_xattn-sg_3-ng_1-iter_102-lr_1e-05
         loss = criteria(e_n.to(devices[0]), e_0.to(devices[0]) - (negative_guidance*(e_p.to(devices[0]) - e_0.to(devices[0]))))
 
-        # compvis-word_VanGogh-method_xattn-sg_3-ng_1-iter_102-lr_1e-05-e0
-        # loss = criteria(e_n.to(devices[0]), e_0.to(devices[0]))
-
-        # compvis-word_VanGogh-method_xattn-sg_3-ng_1-iter_102-lr_1e-05-e0-artist
-        # loss = criteria(e_n.to(devices[0]), e_0.to(devices[0]))
-
         print('loss:', loss, loss_reg)
         # update weights to erase the concept
         loss.backward()
@@ -277,16 +270,9 @@ def train_esd(prompt, train_method, start_guidance, negative_guidance, iteration
         history.append(loss.item())
         opt.step()
         # save checkpoint and loss curve
-        if (i+1) % 500 == 0 and i+1 != iterations and i+1>= 500:
-            save_model(model, name, i-1, save_compvis=True, save_diffusers=False)
-
-        if i % 100 == 0:
-            save_history(losses, name, word_print)
-
     model.eval()
 
     save_model(model, name, None, save_compvis=True, save_diffusers=True, compvis_config_file=config_path, diffusers_config_file=diffusers_config_path)
-    save_history(losses, name, word_print)
 
 def save_model(model, name, num, compvis_config_file=None, diffusers_config_file=None, device='cpu', save_compvis=True, save_diffusers=True):
     # SAVE MODEL
@@ -317,11 +303,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
                     prog = 'TrainESD',
                     description = 'Finetuning stable diffusion model to erase concepts using ESD method')
-    parser.add_argument('--prompt', help='prompt corresponding to concept to erase', type=str, required=True)
+    parser.add_argument('--erase_cat', help='category for erasure', type=str, required=False, default='object') # style
+    parser.add_argument('--erased_index', help='index of the forgotten concept', type=int, required=True)
     parser.add_argument('--train_method', help='method of training', type=str, required=True)
     parser.add_argument('--start_guidance', help='guidance of start image used to train', type=float, required=False, default=3)
     parser.add_argument('--negative_guidance', help='guidance of negative training used to train', type=float, required=False, default=1)
-    parser.add_argument('--iterations', help='iterations used to train', type=int, required=False, default=50)
+    parser.add_argument('--iter_break', help='iterations used to train', type=int, required=False, default=50)
     parser.add_argument('--lr', help='learning rate used to train', type=int, required=False, default=1e-5)
     parser.add_argument('--config_path', help='config path for stable diffusion v1-4 inference', type=str, required=False, default='configs/stable-diffusion/v1-inference.yaml')
     parser.add_argument('--ckpt_path', help='ckpt path for stable diffusion v1-4', type=str, required=False, default='models/ldm/stable-diffusion-v1/sd-v1-4-full-ema.ckpt')
@@ -331,12 +318,11 @@ if __name__ == '__main__':
     parser.add_argument('--image_size', help='image size used to train', type=int, required=False, default=512)
     parser.add_argument('--ddim_steps', help='ddim steps of inference used to train', type=int, required=False, default=50)
     args = parser.parse_args()
-    
-    prompt = args.prompt
+
     train_method = args.train_method
     start_guidance = args.start_guidance
     negative_guidance = args.negative_guidance
-    iterations = args.iterations
+    iter_break = args.iter_break
     lr = args.lr
     config_path = args.config_path
     ckpt_path = args.ckpt_path
@@ -346,4 +332,4 @@ if __name__ == '__main__':
     image_size = args.image_size
     ddim_steps = args.ddim_steps
 
-    train_esd(prompt=prompt, train_method=train_method, start_guidance=start_guidance, negative_guidance=negative_guidance, iterations=iterations, lr=lr, config_path=config_path, ckpt_path=ckpt_path, diffusers_config_path=diffusers_config_path, devices=devices, seperator=seperator, image_size=image_size, ddim_steps=ddim_steps)
+    train_esd(args.erase_cat, args.erased_index, train_method=train_method, start_guidance=start_guidance, negative_guidance=negative_guidance, iter_break=iter_break, lr=lr, config_path=config_path, ckpt_path=ckpt_path, diffusers_config_path=diffusers_config_path, devices=devices, seperator=seperator, image_size=image_size, ddim_steps=ddim_steps)
