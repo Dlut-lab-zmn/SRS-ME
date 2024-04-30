@@ -56,6 +56,7 @@ After installation, follow these instructions to train a machine unlearning mode
 * `python train-scripts/Esd.py --iter_break 1000 --train_method 'xattn' --erase_cat 'style' --erased_index 0 --devices '0,1'`
 
 4. Train our SRS-ME
+
 Calculate particular solutions:
 * `python train-scripts/SRSME_Solution.py --erase_cat 'style' --erased_index 0 --em_indexes '1,2' --scenei 1 --timei 0 --device '0'`
   
