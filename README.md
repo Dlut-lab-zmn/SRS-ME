@@ -67,7 +67,7 @@ SRS-ME optimization:
 
 To generate images from one of the custom models use the following instructions:
 
-* To use `eval-scripts/generate-images.py` you would need a csv file with columns `prompt`, `evaluation_seed` and `case_number`. (Sample data in `data/`)
+* To use `eval-scripts/generate-images-merge.py` you would need a csv file with columns `prompt`, `evaluation_seed` and `case_number`. (Sample data in `data/`)
 * evaluate.csv: We randomly select 50 seeds for each style and generate 5 images (`num_samples`) using trained DMs per seed. 
 
 For instance, select 0, 1, 2 model weights in generate-images-merge.py, and yield 012-merge
