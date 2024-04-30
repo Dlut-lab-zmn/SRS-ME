@@ -68,7 +68,7 @@ To generate images from one of the custom models use the following instructions:
 
 * To use `eval-scripts/generate-images.py` you would need a csv file with columns `prompt`, `evaluation_seed` and `case_number`. (Sample data in `data/`)
 * evaluate.csv: We randomly select 50 seeds for each style and generate 5 images (`num_samples`) using trained DMs per seed. 
-* `python eval-scripts/generate-images.py --model_name='?' --prompts_path './data/evaluate.csv' --save_path 'evaluation_folder' --num_samples 5`
+* `python eval-scripts/generate-images.py --model_name='abconcept-style-erased_index_0-iter_50' --prompts_path './data/style_classify.csv' --save_path 'evaluation_folder' --num_samples 1 --device 'cuda:0'`
 
 
 
