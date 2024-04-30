@@ -91,11 +91,15 @@ def plot_loss(losses, path,word, n=100):
     plt.ylabel('Loss value', fontsize=16)
     plt.savefig(path)
 
+##################### ESD Functions
 def get_models(config_path, ckpt_path, devices):
     model_orig = load_model_from_config(config_path, ckpt_path, devices[1])
-    model = load_model_from_config(config_path, ckpt_path, devices[0])
+    sampler_orig = DDIMSampler(model_orig)
 
-    return model_orig, model
+    model = load_model_from_config(config_path, ckpt_path, devices[0])
+    sampler = DDIMSampler(model)
+
+    return model_orig, sampler_orig, model, sampler
 
 def preprocess(img):
     if len(img.shape) == 3:
@@ -103,7 +107,7 @@ def preprocess(img):
     img = img.to(memory_format=torch.contiguous_format).float()
     return img
 
-def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_path, diffusers_config_path, devices):
+def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_path, diffusers_config_path, devices, seperator=None, image_size=512, ddim_steps=50):
     '''
     Function to train diffusion models to erase concepts from model weights
 
@@ -111,7 +115,13 @@ def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_pat
     ----------
     prompt : str
         The concept to erase from diffusion model (Eg: "Van Gogh").
-    train_cie : int
+    train_method : str
+        The parameters to train for erasure (ESD-x, ESD-u, full, selfattn).
+    start_guidance : float
+        Guidance to generate images for training.
+    negative_guidance : float
+        Guidance to erase the concepts from diffusion model.
+    iterations : int
         Number of iterations to train.
     lr : float
         learning rate for fine tuning.
@@ -123,16 +133,23 @@ def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_pat
         Config path for diffusers unet in json format.
     devices : str
         2 devices used to load the models (Eg: '0,1' will load in cuda:0 and cuda:1).
+    seperator : str, optional
+        If the prompt has commas can use this to seperate the prompt for individual simulataneous erasures. The default is None.
+    image_size : int, optional
+        Image size for generated images. The default is 512.
+    ddim_steps : int, optional
+        Number of diffusion time steps. The default is 50.
+
     Returns
     -------
     None
 
     '''
     # PROMPT CLEANING
-    model_orig, model = get_models(config_path, ckpt_path, devices)
+    model_orig, sampler_orig, model, sampler = get_models(config_path, ckpt_path, devices)
 
-    path = f'./data/{prompt}/'
-    images = os.listdir(path)
+    path_vangogh = f'./data/{prompt}/'
+    images_vangogh = os.listdir(path_vangogh)
 
     model.train()
 
@@ -154,15 +171,15 @@ def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_pat
 
     name = f'CiE-{prompt}-threshold_{threshold}-iter_{iter_break}_beta-{reg_beta}'
 
-    for i, image_name in enumerate(images):
-        image_path = path + image_name
-        img = load_img(image_path)
-        img = preprocess(img)
+    for i, image_name_vangogh in enumerate(images_vangogh):
+        image_path_vangogh = path_vangogh + image_name_vangogh
+        img_vangogh = load_img(image_path_vangogh)
+        img_vangogh = preprocess(img_vangogh)
 
-        img = img.to(model.device)
+        img_vangogh = img_vangogh.to(model.device)
 
-        encoder_posterior = model.encode_first_stage(img)
-        z = model.get_first_stage_encoding(encoder_posterior).detach()
+        encoder_posterior_vangogh = model.encode_first_stage(img_vangogh)
+        z_vangogh = model.get_first_stage_encoding(encoder_posterior_vangogh).detach()
 
         t_enc = torch.randint(ddim_steps, (1,), device=devices[0])
         # time step from 1000 to 0 (0 being good)
@@ -171,20 +188,23 @@ def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_pat
 
         t_enc_ddpm = torch.randint(og_num, og_num_lim, (1,), device=devices[0])
 
-        emb = model.get_learned_conditioning([prompt])
+        emb_vangogh = model.get_learned_conditioning([prompt])
         emb_0 = model.get_learned_conditioning([''])
+
+        # emb_vangogh = model.get_learned_conditioning([f'{prompt} painting'])
+        # emb_0 = model.get_learned_conditioning(['painting'])
 
         loss_sum = 0
         for j, params in enumerate(parameters):
             loss_j = torch.sum(torch.abs(params.to(devices[0]) - parameters_gt[j].to(devices[0])))
             loss_sum += loss_j
         loss_reg = loss_sum / len(parameters)
-        z_n = model.q_sample(z, t_enc_ddpm)
+        z_n = model.q_sample(z_vangogh, t_enc_ddpm)
         with torch.no_grad():
             e_0 = model_orig.apply_model(z_n.to(devices[1]), t_enc_ddpm.to(devices[1]), emb_0.to(devices[1]))[0]
-            e_n = model_orig.apply_model(z_n.to(devices[1]), t_enc_ddpm.to(devices[1]), emb.to(devices[1]))[0]
+            e_n = model_orig.apply_model(z_n.to(devices[1]), t_enc_ddpm.to(devices[1]), emb_vangogh.to(devices[1]))[0]
         e_p0 = model.apply_model(z_n.to(devices[0]), t_enc_ddpm.to(devices[0]), emb_0.to(devices[0]))[0]
-        e_pn = model.apply_model(z_n.to(devices[0]), t_enc_ddpm.to(devices[0]), emb.to(devices[0]))[0]
+        e_pn = model.apply_model(z_n.to(devices[0]), t_enc_ddpm.to(devices[0]), emb_vangogh.to(devices[0]))[0]
         e_0.requires_grad = False
         e_n.requires_grad = False
         
@@ -194,18 +214,14 @@ def train_cie(prompt, iter_break, threshold, reg_beta, lr, config_path, ckpt_pat
         # if torch.sum(dir_mask) > 0:
         #     direction_diff = torch.mean((epn_minus_e0 * en_minus_e0 * dir_mask))
         direction_diff = torch.mean(epn_minus_ep0 * en_minus_e0)#  * e_0.shape[1]
-        loss_p = criteria(e_pn.to(devices[0]), e_n.to(devices[0]))
-        loss_0 = torch.mean(torch.abs(e_p0.to(devices[0]) - e_0.to(devices[0])))
         loss =  direction_diff + reg_beta * loss_reg
-        print("loss:", loss_reg, direction_diff, loss_p, loss_0)
+        print("loss:", loss_reg, direction_diff)
         if i == 0:
             total_diff = direction_diff.detach()
         else:
             total_diff = 0.9 * total_diff + 0.1 * direction_diff.detach()
         # update weights to erase the concept
         loss.backward()
-        losses.append(loss.item())
-        history.append(loss.item())
         opt.step()
         if i > 10:
             if total_diff < threshold or i == iter_break:
@@ -242,17 +258,20 @@ def save_history(losses, name, word_print):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-                    prog = 'TrainCiE',
-                    description = 'Finetuning stable diffusion model to erase concepts using CiE method')
+                    prog = 'TrainCIE',
+                    description = 'Finetuning stable diffusion model to erase concepts using ESD method')
     parser.add_argument('--prompt', help='prompt corresponding to concept to erase', type=str, required=True)
     parser.add_argument('--lr', help='learning rate used to train', type=float, required=False, default=1e-6)
     parser.add_argument('--config_path', help='config path for stable diffusion v1-4 inference', type=str, required=False, default='configs/stable-diffusion/v1-inference.yaml')
     parser.add_argument('--ckpt_path', help='ckpt path for stable diffusion v1-4', type=str, required=False, default='models/ldm/stable-diffusion-v1/sd-v1-4-full-ema.ckpt')
     parser.add_argument('--diffusers_config_path', help='diffusers unet config json path', type=str, required=False, default='diffusers_unet_config.json')
     parser.add_argument('--devices', help='cuda devices to train on', type=str, required=False, default='0,0')
+    parser.add_argument('--seperator', help='separator if you want to train bunch of words separately', type=str, required=False, default=None)
+    parser.add_argument('--image_size', help='image size used to train', type=int, required=False, default=512)
     parser.add_argument('--iterations', help='iterations used to train', type=int, required=False, default=1000)
     parser.add_argument('--threshold', help='threshold used to train', type=float, required=False, default=5e-5)
     parser.add_argument('--reg_beta', help='reg norm for weight diff', type=float, required=False, default=1e-5)
+    parser.add_argument('--ddim_steps', help='ddim steps of inference used to train', type=int, required=False, default=50)
     args = parser.parse_args()
 
     threshold = args.threshold
@@ -264,5 +283,8 @@ if __name__ == '__main__':
     ckpt_path = args.ckpt_path
     diffusers_config_path = args.diffusers_config_path
     devices = [f'cuda:{int(d.strip())}' for d in args.devices.split(',')]
+    seperator = args.seperator
+    image_size = args.image_size
+    ddim_steps = args.ddim_steps
 
-    train_cie(prompt=prompt, iter_break= iter_break, threshold = threshold, reg_beta = reg_beta, lr=lr, config_path=config_path, ckpt_path=ckpt_path, diffusers_config_path=diffusers_config_path, devices=devices)
+    train_cie(prompt=prompt, iter_break= iter_break, threshold = threshold, reg_beta = reg_beta, lr=lr, config_path=config_path, ckpt_path=ckpt_path, diffusers_config_path=diffusers_config_path, devices=devices, seperator=seperator, image_size=image_size, ddim_steps=ddim_steps)
