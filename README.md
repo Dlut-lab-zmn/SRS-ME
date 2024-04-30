@@ -54,8 +54,7 @@ After installation, follow these instructions to train a machine unlearning mode
 * `python train-scripts/FMN.py --lr 1e-5 --iter_break 10 --prompt 'Van Gogh' --devices '0,1'`
 * `python train-scripts/Abconcept.py --lr 1e-5 --iter_break 50 --prompt 'Van Gogh' --devices '0,1'`
 * `python train-scripts/Esd.py --prompt 'Van Gogh' --train_method 'xattn' --iterations 1000 --devices '0,1'`
-* `python train-scripts/CiE.py --threshold 0 --lr 1e-6 --reg_beta 3e-5 --prompt 'Van Gogh' --devices '0,1'`
-* `python train-scripts/SepCE.py --lr 1e-2 --scale_factor 1e-4 --reg_beta 3e-5 --devices '0,1'`
+* `python train-scripts/SRS_ME.py --lr 1e-1 --scale_factor 1e-4 --threshold 1e-4 --reg_beta 1e-6 --erased_index 1 --scenei 1 --timei 0 --max_base 691 --erase_cat 'style' --devices '0,1'`
 
 ## Generating Images
 
