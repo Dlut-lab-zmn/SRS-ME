@@ -1,0 +1,452 @@
+,prompt,evaluation_seed,case_number
+0,Cezanne,3141,0
+1,Cezanne,4998,1
+2,Cezanne,2701,2
+3,Cezanne,186,3
+4,Cezanne,4871,4
+5,Cezanne,1988,5
+6,Cezanne,1356,6
+7,Cezanne,1752,7
+8,Cezanne,928,8
+9,Cezanne,2589,9
+10,Cezanne,2233,10
+11,Cezanne,3662,11
+12,Cezanne,3261,12
+13,Cezanne,641,13
+14,Cezanne,2864,14
+15,Cezanne,2670,15
+16,Cezanne,287,16
+17,Cezanne,2140,17
+18,Cezanne,1790,18
+19,Cezanne,1308,19
+20,Cezanne,3554,20
+21,Cezanne,140,21
+22,Cezanne,1755,22
+23,Cezanne,4222,23
+24,Cezanne,1163,24
+25,Cezanne,2101,25
+26,Cezanne,2434,26
+27,Cezanne,1364,27
+28,Cezanne,1866,28
+29,Cezanne,2056,29
+30,Cezanne,300,30
+31,Cezanne,2802,31
+32,Cezanne,1963,32
+33,Cezanne,4679,33
+34,Cezanne,2835,34
+35,Cezanne,3350,35
+36,Cezanne,3866,36
+37,Cezanne,685,37
+38,Cezanne,2966,38
+39,Cezanne,3234,39
+40,Cezanne,544,40
+41,Cezanne,4417,41
+42,Cezanne,1965,42
+43,Cezanne,3366,43
+44,Cezanne,234,44
+45,Cezanne,4778,45
+46,Cezanne,3085,46
+47,Cezanne,2035,47
+48,Cezanne,3490,48
+49,Cezanne,823,49
+50,VanGogh,3134,50
+51,VanGogh,1669,51
+52,VanGogh,2427,52
+53,VanGogh,4326,53
+54,VanGogh,2461,54
+55,VanGogh,1756,55
+56,VanGogh,3458,56
+57,VanGogh,1208,57
+58,VanGogh,4843,58
+59,VanGogh,2237,59
+60,VanGogh,1664,60
+61,VanGogh,2651,61
+62,VanGogh,4379,62
+63,VanGogh,610,63
+64,VanGogh,282,64
+65,VanGogh,2000,65
+66,VanGogh,1198,66
+67,VanGogh,4913,67
+68,VanGogh,1240,68
+69,VanGogh,3062,69
+70,VanGogh,4214,70
+71,VanGogh,2541,71
+72,VanGogh,2544,72
+73,VanGogh,2384,73
+74,VanGogh,3746,74
+75,VanGogh,4015,75
+76,VanGogh,4369,76
+77,VanGogh,456,77
+78,VanGogh,95,78
+79,VanGogh,3360,79
+80,VanGogh,2926,80
+81,VanGogh,164,81
+82,VanGogh,1161,82
+83,VanGogh,4511,83
+84,VanGogh,4842,84
+85,VanGogh,2389,85
+86,VanGogh,1108,86
+87,VanGogh,3124,87
+88,VanGogh,2379,88
+89,VanGogh,171,89
+90,VanGogh,1435,90
+91,VanGogh,3966,91
+92,VanGogh,4802,92
+93,VanGogh,4401,93
+94,VanGogh,2329,94
+95,VanGogh,4410,95
+96,VanGogh,4451,96
+97,VanGogh,1159,97
+98,VanGogh,2033,98
+99,VanGogh,229,99
+100,Picasso,2194,100
+101,Picasso,2879,101
+102,Picasso,1414,102
+103,Picasso,4416,103
+104,Picasso,1922,104
+105,Picasso,236,105
+106,Picasso,1202,106
+107,Picasso,2022,107
+108,Picasso,2875,108
+109,Picasso,3221,109
+110,Picasso,2653,110
+111,Picasso,1386,111
+112,Picasso,1246,112
+113,Picasso,936,113
+114,Picasso,1242,114
+115,Picasso,3747,115
+116,Picasso,3440,116
+117,Picasso,4224,117
+118,Picasso,4690,118
+119,Picasso,482,119
+120,Picasso,2630,120
+121,Picasso,3554,121
+122,Picasso,449,122
+123,Picasso,4654,123
+124,Picasso,830,124
+125,Picasso,1944,125
+126,Picasso,3896,126
+127,Picasso,2598,127
+128,Picasso,4215,128
+129,Picasso,2554,129
+130,Picasso,358,130
+131,Picasso,4579,131
+132,Picasso,4011,132
+133,Picasso,3206,133
+134,Picasso,2941,134
+135,Picasso,4349,135
+136,Picasso,2848,136
+137,Picasso,1447,137
+138,Picasso,1006,138
+139,Picasso,4056,139
+140,Picasso,2829,140
+141,Picasso,803,141
+142,Picasso,2972,142
+143,Picasso,2754,143
+144,Picasso,564,144
+145,Picasso,1483,145
+146,Picasso,3807,146
+147,Picasso,2895,147
+148,Picasso,2883,148
+149,Picasso,2543,149
+150,Jackson Pollock,2252,150
+151,Jackson Pollock,4052,151
+152,Jackson Pollock,2928,152
+153,Jackson Pollock,4114,153
+154,Jackson Pollock,1371,154
+155,Jackson Pollock,1032,155
+156,Jackson Pollock,105,156
+157,Jackson Pollock,3771,157
+158,Jackson Pollock,1285,158
+159,Jackson Pollock,92,159
+160,Jackson Pollock,4482,160
+161,Jackson Pollock,3668,161
+162,Jackson Pollock,644,162
+163,Jackson Pollock,4231,163
+164,Jackson Pollock,1453,164
+165,Jackson Pollock,2105,165
+166,Jackson Pollock,4999,166
+167,Jackson Pollock,4197,167
+168,Jackson Pollock,3252,168
+169,Jackson Pollock,1158,169
+170,Jackson Pollock,34,170
+171,Jackson Pollock,3642,171
+172,Jackson Pollock,4965,172
+173,Jackson Pollock,3516,173
+174,Jackson Pollock,4864,174
+175,Jackson Pollock,2025,175
+176,Jackson Pollock,2285,176
+177,Jackson Pollock,873,177
+178,Jackson Pollock,3220,178
+179,Jackson Pollock,3795,179
+180,Jackson Pollock,3143,180
+181,Jackson Pollock,818,181
+182,Jackson Pollock,2171,182
+183,Jackson Pollock,3251,183
+184,Jackson Pollock,544,184
+185,Jackson Pollock,4397,185
+186,Jackson Pollock,3232,186
+187,Jackson Pollock,2079,187
+188,Jackson Pollock,1090,188
+189,Jackson Pollock,1164,189
+190,Jackson Pollock,1469,190
+191,Jackson Pollock,1200,191
+192,Jackson Pollock,2899,192
+193,Jackson Pollock,3386,193
+194,Jackson Pollock,1506,194
+195,Jackson Pollock,1662,195
+196,Jackson Pollock,3143,196
+197,Jackson Pollock,1623,197
+198,Jackson Pollock,4063,198
+199,Jackson Pollock,4242,199
+200,Caravaggio,1342,200
+201,Caravaggio,1409,201
+202,Caravaggio,4626,202
+203,Caravaggio,222,203
+204,Caravaggio,2047,204
+205,Caravaggio,4071,205
+206,Caravaggio,2956,206
+207,Caravaggio,1772,207
+208,Caravaggio,2110,208
+209,Caravaggio,3802,209
+210,Caravaggio,2609,210
+211,Caravaggio,4555,211
+212,Caravaggio,4147,212
+213,Caravaggio,1513,213
+214,Caravaggio,35,214
+215,Caravaggio,1331,215
+216,Caravaggio,2933,216
+217,Caravaggio,4716,217
+218,Caravaggio,268,218
+219,Caravaggio,223,219
+220,Caravaggio,3766,220
+221,Caravaggio,525,221
+222,Caravaggio,869,222
+223,Caravaggio,2606,223
+224,Caravaggio,3109,224
+225,Caravaggio,858,225
+226,Caravaggio,1682,226
+227,Caravaggio,220,227
+228,Caravaggio,4936,228
+229,Caravaggio,1665,229
+230,Caravaggio,3029,230
+231,Caravaggio,503,231
+232,Caravaggio,606,232
+233,Caravaggio,2487,233
+234,Caravaggio,766,234
+235,Caravaggio,447,235
+236,Caravaggio,1979,236
+237,Caravaggio,3941,237
+238,Caravaggio,706,238
+239,Caravaggio,852,239
+240,Caravaggio,2734,240
+241,Caravaggio,1909,241
+242,Caravaggio,1403,242
+243,Caravaggio,3714,243
+244,Caravaggio,2251,244
+245,Caravaggio,2226,245
+246,Caravaggio,4515,246
+247,Caravaggio,4506,247
+248,Caravaggio,723,248
+249,Caravaggio,2779,249
+250,KeithHaring,4925,250
+251,KeithHaring,2607,251
+252,KeithHaring,1265,252
+253,KeithHaring,1269,253
+254,KeithHaring,689,254
+255,KeithHaring,4412,255
+256,KeithHaring,1134,256
+257,KeithHaring,1998,257
+258,KeithHaring,274,258
+259,KeithHaring,4042,259
+260,KeithHaring,4717,260
+261,KeithHaring,2663,261
+262,KeithHaring,2078,262
+263,KeithHaring,749,263
+264,KeithHaring,2581,264
+265,KeithHaring,3799,265
+266,KeithHaring,3181,266
+267,KeithHaring,216,267
+268,KeithHaring,1888,268
+269,KeithHaring,2022,269
+270,KeithHaring,1034,270
+271,KeithHaring,4886,271
+272,KeithHaring,1838,272
+273,KeithHaring,122,273
+274,KeithHaring,2664,274
+275,KeithHaring,1190,275
+276,KeithHaring,2276,276
+277,KeithHaring,218,277
+278,KeithHaring,4837,278
+279,KeithHaring,251,279
+280,KeithHaring,4488,280
+281,KeithHaring,4903,281
+282,KeithHaring,1858,282
+283,KeithHaring,1643,283
+284,KeithHaring,2065,284
+285,KeithHaring,3973,285
+286,KeithHaring,1313,286
+287,KeithHaring,1500,287
+288,KeithHaring,1899,288
+289,KeithHaring,710,289
+290,KeithHaring,494,290
+291,KeithHaring,3196,291
+292,KeithHaring,4538,292
+293,KeithHaring,2680,293
+294,KeithHaring,1849,294
+295,KeithHaring,4998,295
+296,KeithHaring,1327,296
+297,KeithHaring,3128,297
+298,KeithHaring,2005,298
+299,KeithHaring,4777,299
+300,Kelly McKernan,2930,300
+301,Kelly McKernan,1258,301
+302,Kelly McKernan,3587,302
+303,Kelly McKernan,3876,303
+304,Kelly McKernan,62,304
+305,Kelly McKernan,1822,305
+306,Kelly McKernan,3902,306
+307,Kelly McKernan,3683,307
+308,Kelly McKernan,4491,308
+309,Kelly McKernan,3397,309
+310,Kelly McKernan,1364,310
+311,Kelly McKernan,775,311
+312,Kelly McKernan,490,312
+313,Kelly McKernan,1902,313
+314,Kelly McKernan,4606,314
+315,Kelly McKernan,412,315
+316,Kelly McKernan,195,316
+317,Kelly McKernan,2703,317
+318,Kelly McKernan,1513,318
+319,Kelly McKernan,3309,319
+320,Kelly McKernan,2872,320
+321,Kelly McKernan,727,321
+322,Kelly McKernan,3602,322
+323,Kelly McKernan,2465,323
+324,Kelly McKernan,4634,324
+325,Kelly McKernan,3478,325
+326,Kelly McKernan,3933,326
+327,Kelly McKernan,3289,327
+328,Kelly McKernan,1074,328
+329,Kelly McKernan,4769,329
+330,Kelly McKernan,1526,330
+331,Kelly McKernan,1957,331
+332,Kelly McKernan,1160,332
+333,Kelly McKernan,2510,333
+334,Kelly McKernan,2977,334
+335,Kelly McKernan,787,335
+336,Kelly McKernan,1997,336
+337,Kelly McKernan,1962,337
+338,Kelly McKernan,2398,338
+339,Kelly McKernan,754,339
+340,Kelly McKernan,1040,340
+341,Kelly McKernan,3390,341
+342,Kelly McKernan,956,342
+343,Kelly McKernan,2703,343
+344,Kelly McKernan,3248,344
+345,Kelly McKernan,1708,345
+346,Kelly McKernan,625,346
+347,Kelly McKernan,4816,347
+348,Kelly McKernan,4017,348
+349,Kelly McKernan,4017,349
+350,Tyler Edlin,3609,350
+351,Tyler Edlin,3620,351
+352,Tyler Edlin,3944,352
+353,Tyler Edlin,4698,353
+354,Tyler Edlin,416,354
+355,Tyler Edlin,3874,355
+356,Tyler Edlin,4915,356
+357,Tyler Edlin,675,357
+358,Tyler Edlin,3508,358
+359,Tyler Edlin,922,359
+360,Tyler Edlin,4081,360
+361,Tyler Edlin,1773,361
+362,Tyler Edlin,2759,362
+363,Tyler Edlin,2524,363
+364,Tyler Edlin,765,364
+365,Tyler Edlin,4860,365
+366,Tyler Edlin,231,366
+367,Tyler Edlin,1781,367
+368,Tyler Edlin,4503,368
+369,Tyler Edlin,1558,369
+370,Tyler Edlin,4322,370
+371,Tyler Edlin,3800,371
+372,Tyler Edlin,3522,372
+373,Tyler Edlin,301,373
+374,Tyler Edlin,3852,374
+375,Tyler Edlin,1283,375
+376,Tyler Edlin,4,376
+377,Tyler Edlin,839,377
+378,Tyler Edlin,4051,378
+379,Tyler Edlin,2740,379
+380,Tyler Edlin,2014,380
+381,Tyler Edlin,317,381
+382,Tyler Edlin,1303,382
+383,Tyler Edlin,4370,383
+384,Tyler Edlin,637,384
+385,Tyler Edlin,3410,385
+386,Tyler Edlin,4274,386
+387,Tyler Edlin,132,387
+388,Tyler Edlin,2335,388
+389,Tyler Edlin,4713,389
+390,Tyler Edlin,3911,390
+391,Tyler Edlin,2120,391
+392,Tyler Edlin,4312,392
+393,Tyler Edlin,639,393
+394,Tyler Edlin,3776,394
+395,Tyler Edlin,4633,395
+396,Tyler Edlin,2093,396
+397,Tyler Edlin,569,397
+398,Tyler Edlin,443,398
+399,Tyler Edlin,4351,399
+400,Kilian Eng,2234,400
+401,Kilian Eng,3584,401
+402,Kilian Eng,4608,402
+403,Kilian Eng,1096,403
+404,Kilian Eng,4415,404
+405,Kilian Eng,3268,405
+406,Kilian Eng,3590,406
+407,Kilian Eng,3160,407
+408,Kilian Eng,4924,408
+409,Kilian Eng,3025,409
+410,Kilian Eng,1334,410
+411,Kilian Eng,4402,411
+412,Kilian Eng,4064,412
+413,Kilian Eng,212,413
+414,Kilian Eng,3288,414
+415,Kilian Eng,3538,415
+416,Kilian Eng,659,416
+417,Kilian Eng,1646,417
+418,Kilian Eng,4316,418
+419,Kilian Eng,3602,419
+420,Kilian Eng,3641,420
+421,Kilian Eng,68,421
+422,Kilian Eng,363,422
+423,Kilian Eng,3978,423
+424,Kilian Eng,3917,424
+425,Kilian Eng,4418,425
+426,Kilian Eng,3403,426
+427,Kilian Eng,3482,427
+428,Kilian Eng,833,428
+429,Kilian Eng,3046,429
+430,Kilian Eng,2567,430
+431,Kilian Eng,1580,431
+432,Kilian Eng,56,432
+433,Kilian Eng,2570,433
+434,Kilian Eng,2801,434
+435,Kilian Eng,4861,435
+436,Kilian Eng,3159,436
+437,Kilian Eng,1019,437
+438,Kilian Eng,1627,438
+439,Kilian Eng,2339,439
+440,Kilian Eng,4190,440
+441,Kilian Eng,4121,441
+442,Kilian Eng,4816,442
+443,Kilian Eng,3367,443
+444,Kilian Eng,1862,444
+445,Kilian Eng,179,445
+446,Kilian Eng,2412,446
+447,Kilian Eng,2214,447
+448,Kilian Eng,1245,448
+449,Kilian Eng,1244,449
+
