@@ -5,9 +5,6 @@
 </div>
 
 Issues: 
-* affect the overall model performance when erasing concepts;
-* overlook the challenges associated with iterative concept erasure and subsequent restoration.
-
 * Concept restoration: The agreement breakdown between concept owners and DM owners may be temporary, and DM owners need to recover these forgotten concepts after regaining their copyrights.
 * Multi-concept erasure: Current erasure procedures are confined to single-concept elimination and pose challenges when extending them to multi-concept erasure. Multi-concept erasure can take two forms: simultaneous erasure of multiple concepts and iterative concept erasure . The former encounters memory overload, while both forms involve interactions between fine-tuned weights for erasing various concepts.
 * Model performance preservation: Prior efforts focus on concept erasure, leading to a considerable performance degradation in the overall generative capability of DMs. Particularly, they may destroy model watermarks, i.e., watermarks triggered by pre-defined prompts for text-guided DMs.
@@ -24,7 +21,10 @@ This approach also provides flexibility in both erasing and recovering arbitrary
 To effectively erase inappropriate concepts and preserve model performance on regular concepts, we design an innovative concept-irrelevant unlearning optimization process.
 By defining concept representations, this process introduces the concept correlation loss and the momentum statistic-based stopping condition.
 Besides, to reduce memory usage, we demonstrate the feasibility of optimization decoupling for separated weight shifts.
-Benchmarked against prior work, extensive experiments demonstrate the flexibility of our SRS-ME in concept manipulation, as well as its efficacy in preserving model performance and reducing memory consumption.
+Benchmarked against prior work, extensive experiments demonstrate 
+* the flexibility of our SRS-ME in concept manipulation,
+* as well as its efficacy in preserving model performance
+* and reducing memory consumption.
 
 ## Fine-tuned Weights
 
