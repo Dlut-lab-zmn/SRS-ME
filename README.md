@@ -1,4 +1,4 @@
-# [Forget All That Should Be Forgotten: Separable, Recoverable, and Sustainable Multi-Concept Erasure from Diffusion Models]
+# [Forget All That Should Be Forgotten: Separable, Recoverable, and Sustainable Multi-Concept Erasure from Diffusion Models](https://github.com/Dlut-lab-zmn/SepCE4MU/blob/main/pdf/SRSME_CCS_430.pdf)
  
 <div align='center'>
 <img src = 'images/1.jpg'>
