@@ -214,17 +214,22 @@ class CrossAttention2(nn.Module):
 
         q_ = self.to_q(x)
         context = default(context, x)
-
-
+        to_k = 0
+        to_v = 0
         if add_params is not None:
-            k = self.to_k(context) + torch.matmul(torch.matmul(add_params[0][0],add_params[1].float()),context[0].T).T + torch.matmul(torch.matmul(add_params[0][1],add_params[2].float()),context[0].T).T + torch.matmul(torch.matmul(add_params[0][2],add_params[3].float()), context[0].T).T
-            v = self.to_v(context) + torch.matmul(torch.matmul(add_params[0][3],add_params[1].float()),context[0].T).T + torch.matmul(torch.matmul(add_params[0][4],add_params[2].float()),context[0].T).T + torch.matmul(torch.matmul(add_params[0][5],add_params[3].float()), context[0].T).T
-        else:
-            k = self.to_k(context)
-            v = self.to_v(context)
-            if context2 is not None:
-                k2 = self.to_k(context2)
-                v2 = self.to_v(context2)
+            for i in range(len(add_params[1])):
+                to_k_ci = torch.matmul(torch.matmul(add_params[0][i],add_params[1][i].float()), context[0].T).T
+                to_v_ci = torch.matmul(torch.matmul(add_params[0][i+len(add_params[1])],add_params[1][i].float()), context[0].T).T
+                to_k = to_k + to_k_ci
+                to_v = to_v + to_v_ci
+
+        k = self.to_k(context) + to_k
+        v = self.to_v(context) + to_v
+    
+        if context2 is not None:
+            print('Note: attention.py 232 line may need modification')
+            k2 = self.to_k(context2)
+            v2 = self.to_v(context2)
 
         q, k, v = map(lambda t: rearrange(t, 'b n (h d) -> (b h) n d', h=h), (q_, k, v))
 
