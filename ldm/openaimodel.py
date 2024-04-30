@@ -85,7 +85,7 @@ class TimestepEmbedSequential(nn.Sequential, TimestepBlock):
             elif isinstance(layer, SpatialTransformer):
                 if context2 is not None:
                     x, attn_set = layer(x, context, add_params, context2)
-                    attn_sets += attn_set
+                    attn_sets = attn_sets + attn_set
                 else:
                     x = layer(x, context, add_params)
 
@@ -349,7 +349,7 @@ def count_flops_attn(model, _x, y):
     # The first computes the weight matrix, the second computes
     # the combination of the value vectors.
     matmul_ops = 2 * b * (num_spatial ** 2) * c
-    model.total_ops += th.DoubleTensor([matmul_ops])
+    model.total_ops = model.total_ops + th.DoubleTensor([matmul_ops])
 
 
 class QKVAttentionLegacy(nn.Module):
@@ -567,7 +567,7 @@ class UNetModel(nn.Module):
                         )
                     )
                 self.input_blocks.append(TimestepEmbedSequential(*layers))
-                self._feature_size += ch
+                self._feature_size = self._feature_size+ ch
                 input_block_chans.append(ch)
             if level != len(channel_mult) - 1:
                 out_ch = ch
@@ -592,7 +592,7 @@ class UNetModel(nn.Module):
                 ch = out_ch
                 input_block_chans.append(ch)
                 ds *= 2
-                self._feature_size += ch
+                self._feature_size = self._feature_size + ch
 
         if num_head_channels == -1:
             dim_head = ch // num_heads
@@ -629,7 +629,7 @@ class UNetModel(nn.Module):
                 use_scale_shift_norm=use_scale_shift_norm,
             ),
         )
-        self._feature_size += ch
+        self._feature_size = self._feature_size+ ch
 
         self.output_blocks = nn.ModuleList([])
         for level, mult in list(enumerate(channel_mult))[::-1]:
@@ -685,7 +685,7 @@ class UNetModel(nn.Module):
                     )
                     ds //= 2
                 self.output_blocks.append(TimestepEmbedSequential(*layers))
-                self._feature_size += ch
+                self._feature_size =self._feature_size + ch
 
         self.out = nn.Sequential(
             normalization(ch),
@@ -751,51 +751,53 @@ class UNetModel(nn.Module):
         """
         h = x.type(self.dtype)
         module_ind = 0
+        # 2,3,5,6,8,9... these are layers using xatten module, if you use stable diffusion, just skip this dict
         dict_attn = {2:0, 3:1, 5:2, 6:3, 8:4, 9:5, 13:6, 17:7, 18:8, 19:9, 20:10, 21:11, 22:12, 23:13, 24:14, 25:15}
         if add_params is not None:
             ratio = len(add_params[0])//len(dict_attn)
+            # print(ratio)
         attn_sets = []
         for module in self.input_blocks:
-            module_ind+=1
+            module_ind=module_ind+1
             if add_params is not None and module_ind in list(dict_attn.keys()):
                 if context2 is not None:
-                    h, attn_set = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]),context2 = context2)
-                    attn_sets += attn_set
+                    h, attn_set = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]),context2 = context2)
+                    attn_sets = attn_sets + attn_set
                 else:
-                    h = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]),context2 = context2)
+                    h = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]),context2 = context2)
             else:
                 if context2 is not None:
                     h, attn_set = module(h, emb, context, context2 = context2)
-                    attn_sets += attn_set
+                    attn_sets = attn_sets+ attn_set
                 else:
                     h = module(h, emb, context, context2 = context2)
             hs.append(h)
-        module_ind+=1
+        module_ind=module_ind+1
         if add_params is not None:
             if context2 is not None:
-                h, attn_set = self.middle_block(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]),context2 = context2)
-                attn_sets += attn_set
+                h, attn_set = self.middle_block(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]),context2 = context2)
+                attn_sets =attn_sets+ attn_set
             else:
-                h = self.middle_block(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]))
+                h = self.middle_block(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]))
         else:
             if context2 is not None:
                 h, attn_set = self.middle_block(h, emb, context, context2 = context2)
-                attn_sets += attn_set
+                attn_sets =attn_sets+ attn_set
             else:
                 h = self.middle_block(h, emb, context)
         for module in self.output_blocks:
-            module_ind+=1
+            module_ind=module_ind + 1
             h = th.cat([h, hs.pop()], dim=1)
             if add_params is not None and module_ind in list(dict_attn.keys()):
                 if context2 is not None:
-                    h, attn_set = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]),context2 = context2)
-                    attn_sets += attn_set
+                    h, attn_set = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]),context2 = context2)
+                    attn_sets =attn_sets+ attn_set
                 else:
-                    h = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2], add_params[3]))
+                    h = module(h, emb, context, add_params = (add_params[0][dict_attn[module_ind] * ratio :dict_attn[module_ind] * ratio +ratio], add_params[1], add_params[2]))
             else:
                 if context2 is not None:
                     h,attn_set = module(h, emb, context,context2 = context2)
-                    attn_sets += attn_set
+                    attn_sets = attn_sets + attn_set
                 else:
                     h = module(h, emb, context)
 
@@ -904,7 +906,7 @@ class EncoderUNetModel(nn.Module):
                         )
                     )
                 self.input_blocks.append(TimestepEmbedSequential(*layers))
-                self._feature_size += ch
+                self._feature_size =self._feature_size + ch
                 input_block_chans.append(ch)
             if level != len(channel_mult) - 1:
                 out_ch = ch
@@ -929,7 +931,7 @@ class EncoderUNetModel(nn.Module):
                 ch = out_ch
                 input_block_chans.append(ch)
                 ds *= 2
-                self._feature_size += ch
+                self._feature_size = self._feature_size + ch
 
         self.middle_block = TimestepEmbedSequential(
             ResBlock(
@@ -956,7 +958,7 @@ class EncoderUNetModel(nn.Module):
                 use_scale_shift_norm=use_scale_shift_norm,
             ),
         )
-        self._feature_size += ch
+        self._feature_size = self._feature_size + ch
         self.pool = pool
         if pool == "adaptive":
             self.out = nn.Sequential(
@@ -1028,4 +1030,3 @@ class EncoderUNetModel(nn.Module):
         else:
             h = h.type(x.dtype)
             return self.out(h)
-
